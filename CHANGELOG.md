@@ -3,6 +3,16 @@
 All notable changes to Forel are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [1.1.0] - 2026-09-15
+
+This fork (rex/forel) runs Forel headless. The SwiftUI app is left as upstream ships it.
+
+### Added
+- `foreld`, a third executable target on `ForelCore`: `apply` a YAML rules file into the same SQLite database the app uses (validated first, idempotent, file order = priority), `dump` the database back out as YAML, `run` the FSEvents watcher under launchd, `dry-run` one file, `undo` a history batch with the app's safety checks, `status` and `history`. Refuses to `run` while `ForelApp` is running, since both would act on the same events. Watched-folder paths are canonicalised with `realpath(3)`, because Foundation strips `/private` while FSEvents reports it.
+
+### Changed
+- The test target no longer forces the Command Line Tools copy of Testing.framework, which is older than Xcode 27's swift-testing macros and failed to build (`Testing.__SourceBounds`). Set `FOREL_TESTING_FROM_CLT=1` when building with the Command Line Tools only.
+
 ## [Unreleased]
 
 ### Fixed
